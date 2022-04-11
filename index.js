@@ -166,7 +166,7 @@ Softphone.onAgentPaused = () => {
   console.log('Agent Pause');
 };
 
-// FIXME: Missing
+// FIXME: Missing, this method do nothing.
 Softphone.onAgentUnPaused = () => {
   console.log('Agent UnPause');
 };
