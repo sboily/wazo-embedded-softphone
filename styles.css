@@ -1,5 +1,9 @@
 #wazo-softphone {
-    bottom: 50px !important;
-    left: 2px !important;
-    background-color: white;
+  bottom: 50px !important;
+  left: 2px !important;
+}
+
+pre {
+  text-align: left;
+  white-space: pre-line;
 }
