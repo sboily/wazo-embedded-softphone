@@ -213,6 +213,7 @@ Softphone.onWazoContactSearch = (query) => {
 // FIXME: Notification (browser) for incoming call.
 // FIXME: Add information about the first time, there is no ringing sound. Check on google link warning for example.
 // FIXME: Add license page dependancies like we have on other product.
+// FIXME: Add capacity for configuration like TURN, debug etc... Same as our applications.
 
 Softphone.onSearchOptions = (fieldId, query) => {
   console.log(fieldId);
