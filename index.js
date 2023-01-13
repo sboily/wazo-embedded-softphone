@@ -6,7 +6,6 @@
 // FIXME: Add capacity for configuration like TURN, debug etc... Same as our applications. (no tested) Need https://github.com/TinxHQ/portal-ui/pull/1716
 // FIXME: There is not documentation for optionsFetched (needed)
 // FIXME: When we use held button call we lost media (needed)
-// FIXME: There is not method for onAgentUnpause (needed)
 // FIXME: There is no documentation for onCardCanceled (needed)
 // FIXME: There is no documentation for onCallLogCreated (needed)
 // FIXME: Tooltip seems not working everywhere to get information for debugging. Exemple on icon, there is only tooltip on the first icon. (needed)
@@ -171,8 +170,8 @@ softphone.onAgentPaused = () => {
   console.log('Agent Pause');
 };
 
-softphone.onAgentUnPaused = () => {
-  console.log('Agent UnPause');
+softphone.onAgentResumed = () => {
+  console.log('Agent Resumed');
 };
 
 softphone.onLanguageChanged = (language) => {
