@@ -1,45 +1,36 @@
-const { Softphone } = Wazo;
-const { WazoWebSocketClient } = window['@wazo/sdk'];
+import softphone from 'https://cdn.jsdelivr.net/npm/@wazo/euc-plugins-sdk@0.0.3/lib/esm/softphone.js';
+
 const button = document.getElementById('toggle-softphone-button');
 const status = document.getElementById('status');
 const result = document.getElementById('result');
 
-wazoServer = 'quintana.wazo.community';
+const wazoServer = 'quintana.wazo.community';
+const domainNameLdap = 'quintana.wazo.community';
 
 // FIXME: Tooltip seems not working everywhere to get information for debugging.
-debug = false;
+const debug = false;
 
 button.disabled = true;
 
 button.addEventListener('click', (e) => {
   e.preventDefault();
-  Softphone.toggleSoftphoneDisplay();
+  softphone.toggleSoftphoneDisplay();
 });
 
-const ws = new WazoWebSocketClient({
-    host: wazoServer,
-    events: ['*'],
-    version: 2,
-});
-
-ws.on('stt', (data) => {
-  console.log(data);
-});
-
-Softphone.init({server: wazoServer, tenantId: 'sylvain0de', debug: debug});
+softphone.init({server: wazoServer, domainName: domainNameLdap, debug: debug});
 
 // FIXME: session seems undefined but documented on README.
-Softphone.onIFrameLoaded = () => {
+softphone.onIFrameLoaded = () => {
   button.disabled = false;
 };
 
 // FIXME: There is not documentation for this method on the README.
-Softphone.optionsFetched('clientId', [
+softphone.optionsFetched('clientId', [
   { label: 'Manu', id: 'test' },
   { label: 'Bob', id: '123' },
 ]);
 
-Softphone.customizeAppearance({
+softphone.customizeAppearance({
   primary: '#2e5',
 }, {
   en: {
@@ -52,7 +43,7 @@ Softphone.customizeAppearance({
   logo: 'https://www.ytel.com/hubfs/ytel_update_2021/ytel_logo.svg',
 });
 
-Softphone.setFormSchema({
+softphone.setFormSchema({
   type: 'object',
   required: ['title', 'phoneNumber'],
   properties: {
@@ -78,124 +69,121 @@ Softphone.setFormSchema({
   clientId :{ 'ui:field': 'autocomplete'},
 });
 
-Softphone.onCallEstablished = (call) => {
+softphone.onCallEstablished = (call) => {
   console.log(call);
   result.innerHTML = 'onCallEstablished';
 };
 
-Softphone.onCallRejected = (call) => {
+softphone.onCallRejected = (call) => {
   console.log(`reject ${call}`);
   result.innerHTML = 'Reject';
 };
 
-Softphone.onCardSaved = card => {
+softphone.onCardSaved = card => {
   result.innerHTML = JSON.stringify(card);
 };
 
-Softphone.onLinkEnabled = link => {
+softphone.onLinkEnabled = link => {
   link.style.textDecorationStyle = 'dotted';
 };
 
-Softphone.onCallIncoming = call => {
+softphone.onCallIncoming = call => {
   status.innerHTML = `Call incoming from ${call.displayName}`;
-  Softphone.displaySoftphone();
+  softphone.displaySoftphone();
 };
 
-Softphone.onCallEnded = (call, card) => {
+softphone.onCallEnded = (call, card) => {
   status.innerHTML = `Call with ${call.displayName} ended`;
   result.innerHTML = `Call with ${call.displayName} ended, card: ${JSON.stringify(card)}`;
-  Softphone.setCardValue('cardId', 'some-card-id');
+  softphone.setCardValue('cardId', 'some-card-id');
 };
 
-Softphone.onOutgoingCallMade = call => {
+softphone.onOutgoingCallMade = call => {
   result.innerHTML = `<code>${JSON.stringify(call)}</code>`;
   status.innerHTML = `Call made with ${call.displayName}`;
   setTimeout(() => {
-    Softphone.setCardValue('title', 'URGENT');
-    Softphone.setCardValue('note', 'Un Homme pressé!');
-    Softphone.setCardValue('vegetarian', true);
-    Softphone.setCardValue('nationality', 'US');
-    Softphone.setCardValue('clientId', {label: 'Bob', id: '123'});
+    softphone.setCardValue('title', 'URGENT');
+    softphone.setCardValue('note', 'Un Homme pressé!');
+    softphone.setCardValue('vegetarian', true);
+    softphone.setCardValue('nationality', 'US');
+    softphone.setCardValue('clientId', {label: 'Bob', id: '123'});
   }, 3000);
 
   setTimeout(() => {
-    Softphone.setCardValue('vegetarian', false);
+    softphone.setCardValue('vegetarian', false);
   }, 4000);
 };
 
-Softphone.onAuthenticated = session => {
+softphone.onAuthenticated = session => {
   status.innerHTML = `Hello ${session.profile.firstName}`;
-  refreshToken = session.refreshToken;
-  token = session.token;
+  let refreshToken = session.refreshToken;
+  const token = session.token;
   if (refreshToken) {
     localStorage.setItem('refreshToken', refreshToken);
   }
   refreshToken = localStorage.getItem('refreshToken');
-  ws.updateToken(token);
-  ws.connect();
 };
 
-Softphone.onDtmfSent = tone => {
+softphone.onDtmfSent = tone => {
   console.log(tone);
   result.innerHTML = tone;
 };
 
-Softphone.onLoggedOut = session => {
+softphone.onLoggedOut = session => {
   console.log(session);
   result.innerHTML = session;
-  ws.close();
 };
 
-Softphone.onStartRecording = () => {
+softphone.onStartRecording = () => {
   console.log('START RECORD');
 };
 
-Softphone.onStopRecording = () => {
+softphone.onStopRecording = () => {
   console.log('STOP RECORD');
 };
 
-Softphone.onAgentLoggedIn = () => {
+softphone.onAgentLoggedIn = () => {
   console.log('Agent Logged in');
 };
 
-Softphone.onAgentLoggedOut = () => {
+softphone.onAgentLoggedOut = () => {
   console.log('Agent Logged out');
 };
 
-Softphone.onAgentPaused = () => {
+softphone.onAgentPaused = () => {
   console.log('Agent Pause');
 };
 
 // FIXME: Missing, this method do nothing.
-Softphone.onAgentUnPaused = () => {
+softphone.onAgentUnPaused = () => {
   console.log('Agent UnPause');
 };
 
-Softphone.onLanguageChanged = (language) => {
+softphone.onLanguageChanged = (language) => {
   console.log(language);
 };
 
 
 // FIXME: When we use held button call is hangup
-Softphone.onCallHeld = () => {
+softphone.onCallHeld = () => {
   console.log('Call Held');
 };
 
-Softphone.onCallResumed = () => {
+softphone.onCallResumed = () => {
   console.log('Call resumed');
 };
 
-Softphone.onCallMuted = () => {
+softphone.onCallMuted = () => {
   console.log('Call muted');
 };
 
-Softphone.onCallUnMuted = () => {
+softphone.onCallUnMuted = () => {
   console.log('Call unmuted');
 };
 
 // FIXME: When you search a contact on dialer, after the popup is opened, the search continue to make search if you have less than 3 characters
 // FIXME: In contact page there is no restriction, any characters launch the search, and when you erase all characters, it continue to search.
-Softphone.onWazoContactSearch = (query) => {
+softphone.onWazoContactSearch = (query) => {
   console.log(`Searching contact... ${query}`);
 };
 
@@ -215,11 +203,11 @@ Softphone.onWazoContactSearch = (query) => {
 // FIXME: Add license page dependancies like we have on other product.
 // FIXME: Add capacity for configuration like TURN, debug etc... Same as our applications.
 
-Softphone.onSearchOptions = (fieldId, query) => {
+softphone.onSearchOptions = (fieldId, query) => {
   console.log(fieldId);
   console.log(query);
-  results = [
+  const results = [
     { label: 'Tutu', id: '0123' },
   ]
-  Wazo.Softphone.onOptionsResults(fieldId, results);
+  softphone.onOptionsResults(fieldId, results);
 };
