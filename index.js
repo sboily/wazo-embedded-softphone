@@ -10,6 +10,7 @@
 // FIXME: There is no documentation for onCallLogCreated (needed)
 // FIXME: Tooltip seems not working everywhere to get information for debugging. Exemple on icon, there is only tooltip on the first icon. (needed)
 // FIXME: When i use the click to call, the call is not launched now (needed)
+// FIXME: Calllog seems not updated after a call, need to reload the page
 
 
 import softphone from 'https://cdn.jsdelivr.net/npm/@wazo/euc-plugins-sdk@0.0.3/lib/esm/softphone.js';
