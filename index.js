@@ -1,3 +1,18 @@
+// FIXME: Probably have a method for make generic API request would be also great. (need information on documentation to have a generic request with the token of the user) (needed)
+// FIXME: Permit to support CTI instead webrtc lines (not now) (not needed)
+// FIXME: Don't search on SCCP line for SIP result, we loop over the each line and we don't care about the type of line. If for a user we have a sccp line we don't need to make an http GET to get his SIP line because it's an sccp line. (needed)
+// FIXME: Inject refreshToken / Token for autologin. Ex. User is logged on another web page. (if we already have the refreshToken, how we can initialize the softphone with this information instead of asking the user for his login and password. (needed)
+// FIXME: UX/UI, make a connection page with all information for login a user. Like add a connection and use it for the authentication. (exemple with okta, no a priority, but good idea for the end user) (not needed)
+// FIXME: Add capacity for configuration like TURN, debug etc... Same as our applications. (no tested) Need https://github.com/TinxHQ/portal-ui/pull/1716
+// FIXME: There is not documentation for optionsFetched (needed)
+// FIXME: When we use held button call we lost media (needed)
+// FIXME: There is not method for onAgentUnpause (needed)
+// FIXME: There is no documentation for onCardCanceled (needed)
+// FIXME: There is no documentation for onCallLogCreated (needed)
+// FIXME: Tooltip seems not working everywhere to get information for debugging. Exemple on icon, there is only tooltip on the first icon. (needed)
+// FIXME: When i use the click to call, the call is not launched now (needed)
+
+
 import softphone from 'https://cdn.jsdelivr.net/npm/@wazo/euc-plugins-sdk@0.0.3/lib/esm/softphone.js';
 
 const button = document.getElementById('toggle-softphone-button');
@@ -7,7 +22,6 @@ const result = document.getElementById('result');
 const wazoServer = 'quintana.wazo.community';
 const domainNameLdap = 'quintana.wazo.community';
 
-// FIXME: Tooltip seems not working everywhere to get information for debugging.
 const debug = false;
 
 button.disabled = true;
@@ -17,14 +31,16 @@ button.addEventListener('click', (e) => {
   softphone.toggleSoftphoneDisplay();
 });
 
+if (Notification.permission !== 'granted') {
+  Notification.requestPermission();
+}
+
 softphone.init({server: wazoServer, domainName: domainNameLdap, debug: debug});
 
-// FIXME: session seems undefined but documented on README.
 softphone.onIFrameLoaded = () => {
   button.disabled = false;
 };
 
-// FIXME: There is not documentation for this method on the README.
 softphone.optionsFetched('clientId', [
   { label: 'Manu', id: 'test' },
   { label: 'Bob', id: '123' },
@@ -90,6 +106,7 @@ softphone.onLinkEnabled = link => {
 softphone.onCallIncoming = call => {
   status.innerHTML = `Call incoming from ${call.displayName}`;
   softphone.displaySoftphone();
+  new Notification(`Call incoming from ${call.displayName}`);
 };
 
 softphone.onCallEnded = (call, card) => {
@@ -154,7 +171,6 @@ softphone.onAgentPaused = () => {
   console.log('Agent Pause');
 };
 
-// FIXME: Missing, this method do nothing.
 softphone.onAgentUnPaused = () => {
   console.log('Agent UnPause');
 };
@@ -164,7 +180,6 @@ softphone.onLanguageChanged = (language) => {
 };
 
 
-// FIXME: When we use held button call is hangup
 softphone.onCallHeld = () => {
   console.log('Call Held');
 };
@@ -181,27 +196,22 @@ softphone.onCallUnMuted = () => {
   console.log('Call unmuted');
 };
 
-// FIXME: When you search a contact on dialer, after the popup is opened, the search continue to make search if you have less than 3 characters
-// FIXME: In contact page there is no restriction, any characters launch the search, and when you erase all characters, it continue to search.
-softphone.onWazoContactSearch = (query) => {
+softphone.onWazoContactSearch = query => {
   console.log(`Searching contact... ${query}`);
 };
 
-// FIXME: There is no onCardCancelled to catch if the user wants to don't save the card.
-// FIXME: There is no onNewCDREntry or something like that.
-// FIXME: Probably a websocket forward would be a good idea. onWebsocketEvent and probably a websocket subscribe? There is no reason to have multiple websocket...
-// FIXME: Probably have a method for make generic API request would be also great.
-// FIXME: Missed a DND and forward information like desktop or web application
-// FIXME: Missed page for call forward
-// FIXME: Permit to support CTI instead webrtc lines
-// FIXME: Don't search on SCCP line for SIP result
-// FIXME: Add tenantId input to login page (support for domain_name new version)
-// FIXME: Inject refreshToken / Token for autologin. Ex. User is logged on another web page.
-// FIXME: UX/UI, make a connection page with all information for login a user. Like add a connection and use it for the authentication.
-// FIXME: Notification (browser) for incoming call.
-// FIXME: Add information about the first time, there is no ringing sound. Check on google link warning for example.
-// FIXME: Add license page dependancies like we have on other product.
-// FIXME: Add capacity for configuration like TURN, debug etc... Same as our applications.
+softphone.onCardCanceled = () => {
+  console.log('OncardCanceled');
+}
+
+softphone.onCallLogCreated = cdr => {
+  console.log('onCallLogCreated');
+  console.log(cdr);
+}
+
+softphone.onWebsocketMessage = (message) => {
+  console.log(message);
+}
 
 softphone.onSearchOptions = (fieldId, query) => {
   console.log(fieldId);
