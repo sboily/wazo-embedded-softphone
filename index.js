@@ -1,19 +1,17 @@
-// FIXME: Probably have a method for make generic API request would be also great. (need information on documentation to have a generic request with the token of the user) (needed)
-// FIXME: Permit to support CTI instead webrtc lines (not now) (not needed)
 // FIXME: Don't search on SCCP line for SIP result, we loop over the each line and we don't care about the type of line. If for a user we have a sccp line we don't need to make an http GET to get his SIP line because it's an sccp line. (needed)
-// FIXME: Inject refreshToken / Token for autologin. Ex. User is logged on another web page. (if we already have the refreshToken, how we can initialize the softphone with this information instead of asking the user for his login and password. (needed)
-// FIXME: UX/UI, make a connection page with all information for login a user. Like add a connection and use it for the authentication. (exemple with okta, no a priority, but good idea for the end user) (not needed)
-// FIXME: Add capacity for configuration like TURN, debug etc... Same as our applications. (no tested) Need https://github.com/TinxHQ/portal-ui/pull/1716
-// FIXME: There is not documentation for optionsFetched (needed)
 // FIXME: When we use held button call we lost media (needed)
 // FIXME: There is no documentation for onCardCanceled (needed)
-// FIXME: There is no documentation for onCallLogCreated (needed)
 // FIXME: Tooltip seems not working everywhere to get information for debugging. Exemple on icon, there is only tooltip on the first icon. (needed)
 // FIXME: When i use the click to call, the call is not launched now (needed)
-// FIXME: Calllog seems not updated after a call, need to reload the page
+// FIXME: Calllog seems not updated after a call, need to reload the page (needed)
+// FIXME: Add capacity for configuration like TURN, debug etc... Same as our applications. (no tested) Need https://github.com/TinxHQ/portal-ui/pull/1716
+
+// FIXME: Permit to support CTI instead webrtc lines (not now) (not needed)
+// FIXME: UX/UI, make a connection page with all information for login a user. Like add a connection and use it for the authentication. (exemple with okta, no a priority, but good idea for the end user) (not needed)
 
 
 import softphone from 'https://cdn.jsdelivr.net/npm/@wazo/euc-plugins-sdk@0.0.3/lib/esm/softphone.js';
+import { Wazo } from 'https://cdn.jsdelivr.net/npm/@wazo/sdk';
 
 const button = document.getElementById('toggle-softphone-button');
 const status = document.getElementById('status');
@@ -34,6 +32,8 @@ button.addEventListener('click', (e) => {
 if (Notification.permission !== 'granted') {
   Notification.requestPermission();
 }
+
+// softphone.loginWithToken(token, refreshToken);
 
 softphone.init({server: wazoServer, domainName: domainNameLdap, debug: debug});
 
@@ -139,6 +139,12 @@ softphone.onAuthenticated = session => {
     localStorage.setItem('refreshToken', refreshToken);
   }
   refreshToken = localStorage.getItem('refreshToken');
+  
+  Wazo.Auth.setHost(wazoServer);
+  Wazo.Auth.setApiToken(session.token);
+  
+  const callLogs = await Wazo.api.callLogd.listCallLogs();
+  console.log(callLogs);
 };
 
 softphone.onDtmfSent = tone => {
