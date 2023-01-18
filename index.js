@@ -54,11 +54,47 @@ const openLogin = () => {
   });
 }
 
-const authenticate = async (username, password) => {
-  const session = await Wazo.Auth.logIn(username, password).catch();
-  setSessionOnStorage(session);
+const checkJson = item => {
+  try {
+    const message = JSON.parse(item)
+    return message.reason || item;
+  } catch(_) {
+    return item;
+  }
+}
 
-  onLogin();
+const displayAuthError = error => {
+  $('.auth-error').html('');
+  $('.serv-error').html('');
+  $('.login').removeClass('onalert');
+  $('label').removeClass('onerror');
+
+  const message = checkJson(error.message);
+
+  if (message[0].includes('Authentication')) {
+    $('.auth-error').html('Authentication failed, please verify you typed your authentication details right');
+    $('#password').addClass('onalert');
+    $('#email').addClass('onalert');
+    $('.auth-lab').addClass('onerror');
+  } else {
+    $('.serv-error').html('Couldn\'t reach server, please verify its name and your internet connection');
+    $('#server').addClass('onalert');
+    $('.serv-lab').addClass('onerror');
+  }
+  
+  $('#submit-login').prop('disabled', false);
+  $('.login-txt').html('login');
+}
+
+const authenticate = async (username, password) => {
+  try {
+    const session = await Wazo.Auth.logIn(username, password).catch();
+    setSessionOnStorage(session);
+
+    onLogin();
+  } catch (e) {
+    displayAuthError(e);
+  }
 }
 
 const onLogin = () => {

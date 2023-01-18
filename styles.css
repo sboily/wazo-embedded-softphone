@@ -7,3 +7,260 @@ pre {
   text-align: left;
   white-space: pre-line;
 }
+
+@media screen and (min-width: 300px) {
+  .auth-display {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .one {
+    width: 100%;
+  }
+
+  .two {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .auth-display {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .one {
+    width: 30%;
+  }
+
+  .two {
+    width: 70%;
+  }
+}
+
+/* DISPLAY NONE */
+
+#app {
+  display: none;
+}
+
+#authentication {
+  display: none;
+}
+
+/* MAIN */
+
+.btn {
+  text-transform: uppercase;
+}
+
+.btn-flat {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  background-image: none;
+  background: #515454;
+  border: 0;
+}
+
+.bg-success:hover {
+  background: #fff;
+}
+
+.alert {
+  font-size: 12px;
+  color: #e21b1b;
+  height: 2rem;
+  margin-bottom: 1rem;
+  padding: 0;
+}
+
+.background {
+  width: auto;
+  height: 100vh;
+}
+
+.col {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+}
+
+#authentication {
+  display: none;
+}
+
+/* LOADER */
+
+@keyframes loading {
+  0% {
+    opacity: 0.5;
+  } 25% {
+    opacity: 1;
+  } 50% {
+    opacity: 0.5;
+  } 75% {
+    opacity: 1;
+  } 100% {
+    opacity: 0.5;
+  }
+}
+
+#loader {
+  position : fixed;
+  z-index: 9999;
+  background: url('img/dawn.svg'), #604554;
+  background-size: cover;
+  top : 0;
+  left : 0;
+  height : 100%;
+  width : 100%;
+  cursor : wait;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#loader img {
+  width: 400px;
+  margin-bottom: 2rem;
+  animation-name: loading;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+#loader p {
+  animation-name: loading;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* LOGIN */
+
+/* LOGIN left part */
+
+.one {
+  background: #fff;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.wazo-logo {
+  display: block;
+  margin: auto;
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+label {
+  color: rgba(0,0,0,0.4);
+  font-weight: bold;
+  font-size: 12px;
+}
+
+input.login {
+  color: #515454 !important;
+  background-color: transparent !important;
+  border: none;
+  border-bottom: #515454 solid 1px;
+  font-size: 16px;
+}
+
+.onalert {
+  border-bottom: #e21b1b solid 1px !important;
+}
+
+.onerror {
+  color: #e21b1b;
+}
+
+input.login:focus {
+  outline: none;
+  border-bottom: 2px solid #98c451;
+}
+
+::placeholder {
+  color: #515454;
+  font-style: italic;
+}
+
+#submit-login {
+  margin-top: 1rem;
+  border: 2px solid #98c451;
+  color: #98c451;
+  box-shadow: inset 0px 0px 0px 0px #98c451;
+  font-weight: bold;
+  transition: box-shadow 1s, color 0.6s;
+}
+
+#submit-login:hover {
+  color: #fff;
+  box-shadow: inset 0px 50px 0px 0px #98c451;
+  transition: box-shadow 0.5s, color 0.3s;
+}
+
+/* LOGIN right part */
+
+.two {
+  background-image: url('img/dawn.png');
+  background-size: cover;
+  display: grid;
+  place-items: center;
+}
+
+.right-content {
+  display: flex;
+  justify-content: center;
+}
+
+.navbar {
+  background: #034f49;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 15px 5px 15px;
+}
+
+#logout {
+  text-decoration: none;
+  color: #98c451;
+  font-weight: bold;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  width: 5rem;
+}
+
+#logout > div {
+  position: absolute;
+  padding-left: 7rem;
+  transition: padding-left 0.3s;
+}
+
+#logout:hover > div {
+  padding-left: 2rem;
+  transition: padding-left 0.5s;
+}
+
+#logout > svg {
+  margin-left: 3rem;
+  transform: rotate(0deg);
+  color: #fff;
+  transition: transform 1s, color 0.5s;
+}
+
+#logout:hover > svg {
+  transform: rotate(-360deg);
+  color: #034f49;
+  transition: transform 0.5s, color 0.7s;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+}
