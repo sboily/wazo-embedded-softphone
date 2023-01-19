@@ -1,6 +1,4 @@
 // [x] FIXME: Don't search on SCCP line for SIP result, we loop over the each line and we don't care about the type of line. If for a user we have a sccp line we don't need to make an http GET to get his SIP line because it's an sccp line. (needed)
-// [x] FIXME: There is no documentation for onCardCanceled (needed)
-// [x] FIXME: Tooltip seems not working everywhere to get information for debugging. Exemple on icon, there is only tooltip on the first icon. (needed)
 // [?] FIXME: When i use the click to call, the call is not launched now (needed)
 // [x] FIXME: Calllog seems not updated after a call, need to reload the page (needed)
 // [x] FIXME if we use loginWithToken, the method onAuthenticate is call twice. (needed)
@@ -86,12 +84,14 @@ const displayAuthError = error => {
   $('.login-txt').html('login');
 };
 
-// This should not be in `app` because it's fired after `softphone.init`.
-softphone.onIFrameLoaded = () => {
-  button.disabled = false;
-};
+const app = (token, refreshToken) => {
+  softphone.onIFrameLoaded = () => {
+    button.disabled = false;
+  };
 
-const app = () => {
+  softphone.init({ server: wazoServer, domainName: domainNameLdap, debug, disableAutoLogin: true });
+  softphone.loginWithToken(token, refreshToken);
+
   softphone.optionsFetched('clientId', [
     { label: 'Manu', id: 'test' },
     { label: 'Bob', id: '123' },
@@ -273,7 +273,7 @@ const app = () => {
   };
 };
 
-const onLogin = () => {
+const onLogin = (token, refreshToken) => {
   $('#authentication').hide();
   $('#app').show();
   $('#logout').on('click', () => {
@@ -281,7 +281,7 @@ const onLogin = () => {
     window.location.reload(false);
   });
 
-  app();
+  app(token, refreshToken);
 };
 
 const authenticate = async (username, password) => {
@@ -304,13 +304,7 @@ const authenticate = async (username, password) => {
     return openLogin();
   }
 
-  // We should call `init` even if we don't have a session.
-  softphone.init({ url: 'http://localhost:3000', server: wazoServer, domainName: domainNameLdap, debug, disableAutoLogin: true });
-
   const session = await Wazo.Auth.validateToken(rawSession.token, rawSession.refreshToken);
-  if (session) {
-    softphone.loginWithToken(session.token, rawSession.refreshToken);
-  }
 
-  return onLogin();
+  return onLogin(session.token, rawSession.refreshToken);
 })();

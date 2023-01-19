@@ -34,11 +34,7 @@
     </div>
     <div class="container" id="app">
       <div class="row">
-        <div class="col-3">
-        </div>
-        <div class="col-3">
-        </div>
-        <div class="col-6">
+        <div class="col">
           <div class="card" style="width: 18rem;">
             <img src="img/wazo-logo.png" class="card-img-top" alt="...">
             <div class="card-body">
@@ -50,15 +46,48 @@
               <span id="status"></span>
             </div>
           </div>
+        </div>
+        <div class="col">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td><a href="tel:12345">12345</a></td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td><a href="tel:*10">*10</a></td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+                <td><a href="tel:5678">5678</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
           <pre id="result"></pre>
         </div>
       </div>
-    <nav class="navbar fixed-bottom navbar-dark bg-dark">
-      <button type="button" class="btn btn-success" id="toggle-softphone-button">
-        <i class="bi bi-telephone-plus"></i>
-      </button>
-      <a href="#" id="logout" class="logout-text">Logout</a>
-    </nav>
+      <nav class="navbar fixed-bottom navbar-dark bg-dark">
+        <button type="button" class="btn btn-success" id="toggle-softphone-button">
+          <i class="bi bi-telephone-plus"></i>
+        </button>
+        <a href="#" id="logout" class="logout-text">Logout</a>
+      </nav>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
