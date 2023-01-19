@@ -6,7 +6,7 @@
 // FIXME: Permit to support CTI instead webrtc lines (not now) (not needed)
 // FIXME: UX/UI, make a connection page with all information for login a user. Like add a connection and use it for the authentication. (exemple with okta, no a priority, but good idea for the end user) (not needed)
 
-import softphone from 'https://cdn.jsdelivr.net/npm/@wazo/euc-plugins-sdk@0.0.3/lib/esm/softphone.js';
+import softphone from 'https://cdn.jsdelivr.net/npm/@wazo/euc-plugins-sdk@0.0.5/lib/esm/softphone.js';
 import 'https://cdn.jsdelivr.net/npm/@wazo/sdk';
 
 const button = document.getElementById('toggle-softphone-button');
