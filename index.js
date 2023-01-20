@@ -1,7 +1,4 @@
-// [x] FIXME: Don't search on SCCP line for SIP result, we loop over the each line and we don't care about the type of line. If for a user we have a sccp line we don't need to make an http GET to get his SIP line because it's an sccp line. (needed)
-// [?] FIXME: When i use the click to call, the call is not launched now (needed)
-// [x] FIXME: Calllog seems not updated after a call, need to reload the page (needed)
-// [x] FIXME if we use loginWithToken, the method onAuthenticate is call twice. (needed)
+// [x] FIXME: Don't search on SCCP line for SIP result, we loop over the each line and we don't care about the type of line. If for a user we have a sccp line we don't need to make an http GET to get his SIP line because it's an sccp line. (needed) Wait for PR https://github.com/wazo-platform/wazo-js-sdk/pull/680
 
 // FIXME: Permit to support CTI instead webrtc lines (not now) (not needed)
 // FIXME: UX/UI, make a connection page with all information for login a user. Like add a connection and use it for the authentication. (exemple with okta, no a priority, but good idea for the end user) (not needed)
