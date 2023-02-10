@@ -286,7 +286,7 @@ const authenticate = async (username, password) => {
     const session = await Wazo.Auth.logIn(username, password).catch();
     setSessionOnStorage(session);
 
-    onLogin();
+    onLogin(session.token, session.refreshToken);
   } catch (e) {
     displayAuthError(e);
   }
