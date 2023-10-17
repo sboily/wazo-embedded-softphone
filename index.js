@@ -10,8 +10,8 @@ const button = document.getElementById('toggle-softphone-button');
 const status = document.getElementById('status');
 const result = document.getElementById('result');
 
-const wazoServer = 'wazoglobal.wazo.io';
-const domainNameLdap = 'wazo.io';
+const wazoServer = '';
+const domainNameLdap = '';
 const debug = false;
 
 button.disabled = true;
